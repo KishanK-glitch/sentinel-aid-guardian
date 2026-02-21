@@ -1,27 +1,48 @@
 
 # SPY Tactical Dashboard – UB-1042
 
-A real-time AI-powered surveillance dashboard built with:
-
-* **FastAPI** (Backend API + WebSocket server)
-* **Vite + React (TypeScript)** (Frontend UI)
-* Computer Vision & Audio modules (YOLO / custom pipelines)
-* Real-time WebSocket communication
+SPY Tactical Dashboard is a real-time AI-powered surveillance and monitoring system designed for live threat analysis using computer vision and audio anomaly detection. The system integrates a FastAPI backend with a modern React (Vite + TypeScript) frontend, enabling real-time communication through WebSockets.
 
 ---
 
-# 🚀 Features
+## Overview
+
+The platform processes live video and audio inputs, performs AI-driven threat detection, and streams structured results to a responsive dashboard interface. The architecture is modular and designed to support scalable integration of additional detection agents or analytical components.
+
+---
+
+## Core Features
 
 * Real-time video feed monitoring
 * AI-based visual threat detection
 * Audio anomaly detection
-* WebSocket-based live status updates
-* Modular backend architecture
-* Production-ready folder structure
+* WebSocket-based live system updates
+* Modular backend pipeline architecture
+* Structured and maintainable project layout
 
 ---
 
-# 🏗️ Project Structure
+## Technology Stack
+
+**Backend**
+
+* FastAPI
+* Uvicorn
+* WebSockets
+* OpenCV
+* NumPy
+* YOLO (optional, if enabled)
+* PyTorch (if required by model)
+
+**Frontend**
+
+* React
+* Vite
+* TypeScript
+
+---
+
+## Project Structure
 
 ```
 UB-1042/
@@ -44,49 +65,55 @@ UB-1042/
 
 ---
 
-# ⚙️ Backend Setup (FastAPI)
+## Backend Setup
 
-## 1️⃣ Create Environment (Recommended)
+### 1. Create a Virtual Environment
 
-```bash
+Using Conda:
+
+```
 conda create -n spy python=3.10
 conda activate spy
 ```
 
-OR using venv:
+Or using venv (Windows):
 
-```bash
+```
 python -m venv venv
-venv\Scripts\activate   # Windows
+venv\Scripts\activate
 ```
 
 ---
 
-## 2️⃣ Install Requirements
+### 2. Install Dependencies
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
-If requirements.txt doesn’t exist, typical dependencies are:
+If a requirements file is not present, install core dependencies manually:
 
-```bash
+```
 pip install fastapi uvicorn python-multipart websockets opencv-python numpy
 ```
 
-(Add torch / ultralytics if using YOLO)
+Install additional ML dependencies if required:
+
+```
+pip install torch ultralytics
+```
 
 ---
 
-## 3️⃣ Run Backend
+### 3. Run the Backend Server
 
-From inside `UB-1042` root:
+From the root directory (`UB-1042`):
 
-```bash
+```
 uvicorn backend.SPY.main:app --reload --port 8000
 ```
 
-Backend will run at:
+Backend will be available at:
 
 ```
 http://localhost:8000
@@ -94,23 +121,23 @@ http://localhost:8000
 
 ---
 
-# 🌐 Frontend Setup (Vite + React)
+## Frontend Setup
 
-## 1️⃣ Install Node Dependencies
+### 1. Install Node Dependencies
 
-```bash
+```
 npm install
 ```
 
 ---
 
-## 2️⃣ Start Frontend Dev Server
+### 2. Start Development Server
 
-```bash
+```
 npm run dev
 ```
 
-Frontend will run at:
+Frontend will be available at:
 
 ```
 http://localhost:8080
@@ -118,30 +145,29 @@ http://localhost:8080
 
 ---
 
-# 🔌 WebSocket Configuration
+## WebSocket Configuration
 
-Make sure:
+Ensure that the WebSocket endpoint defined in the backend matches the frontend connection URL.
 
-* Backend WebSocket endpoint matches frontend
-* Example:
-
-Backend:
+Backend example:
 
 ```python
 @app.websocket("/ws")
 ```
 
-Frontend:
+Frontend example:
 
-```ts
+```typescript
 new WebSocket("ws://localhost:8000/ws")
 ```
 
+Endpoint paths and protocol must match exactly.
+
 ---
 
-# 🛡️ CORS Configuration (Backend)
+## CORS Configuration (Backend)
 
-Ensure CORS allows frontend:
+To enable communication between frontend and backend:
 
 ```python
 from fastapi.middleware.cors import CORSMiddleware
@@ -157,42 +183,34 @@ app.add_middleware(
 
 ---
 
-# 📦 Production Build (Frontend)
+## Production Build (Frontend)
 
-```bash
+To generate a production build:
+
+```
 npm run build
 ```
 
-If serving static files from FastAPI, ensure:
+If serving the frontend from FastAPI:
 
 ```python
+from fastapi.staticfiles import StaticFiles
+
 app.mount("/", StaticFiles(directory="dist", html=True), name="static")
 ```
 
 ---
 
-# 🧪 Debug Checklist
+## Environment Variables
 
-If frontend shows **“Connecting to SPY Network…”**:
-
-* Confirm backend running on 8000
-* Check browser DevTools → Network
-* Check WebSocket connection
-* Check CORS errors
-* Confirm endpoint paths match
-
----
-
-# 🔐 Environment Variables (Optional)
-
-If using `.env`:
+If environment variables are required, create a `.env` file in the root directory:
 
 ```
 ROBOFLOW_API_KEY=your_key_here
 MODEL_PATH=path/to/model.pt
 ```
 
-Load using:
+Load environment variables in Python:
 
 ```python
 from dotenv import load_dotenv
@@ -201,21 +219,21 @@ load_dotenv()
 
 ---
 
-# 🧠 Tech Stack
+## Troubleshooting
 
-* FastAPI
-* Uvicorn
-* React
-* Vite
-* TypeScript
-* OpenCV
-* YOLO (optional)
-* WebSockets
+If the frontend remains stuck on “Connecting to SPY Network”:
+
+* Confirm backend is running on port 8000
+* Verify WebSocket endpoint path consistency
+* Inspect browser developer tools for CORS or WebSocket errors
+* Ensure CORS configuration includes the frontend origin
 
 ---
 
-# 👤 Author
+## Authors
 
-Kishan K,Bhuvan J P,Ananya,Rortin coelho
-AI/ML Developer
+Kishan K
+Bhuvan J P
+Ananya
+Rortin Coelho
 
