@@ -1,73 +1,221 @@
-# Welcome to your Lovable project
 
-## Project info
+# SPY Tactical Dashboard – UB-1042
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A real-time AI-powered surveillance dashboard built with:
 
-## How can I edit this code?
+* **FastAPI** (Backend API + WebSocket server)
+* **Vite + React (TypeScript)** (Frontend UI)
+* Computer Vision & Audio modules (YOLO / custom pipelines)
+* Real-time WebSocket communication
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+# 🚀 Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+* Real-time video feed monitoring
+* AI-based visual threat detection
+* Audio anomaly detection
+* WebSocket-based live status updates
+* Modular backend architecture
+* Production-ready folder structure
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+# 🏗️ Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```
+UB-1042/
+│
+├── backend/
+│   └── SPY/
+│       ├── main.py
+│       ├── core_pipeline.py
+│       ├── vision_agent.py
+│       ├── audio_agent.py
+│       ├── schemas.py
+│       └── ...
+│
+├── src/                # Frontend (React + Vite)
+├── public/
+├── requirements.txt
+├── package.json
+└── README.md
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+# ⚙️ Backend Setup (FastAPI)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 1️⃣ Create Environment (Recommended)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+conda create -n spy python=3.10
+conda activate spy
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+OR using venv:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+python -m venv venv
+venv\Scripts\activate   # Windows
+```
+
+---
+
+## 2️⃣ Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+If requirements.txt doesn’t exist, typical dependencies are:
+
+```bash
+pip install fastapi uvicorn python-multipart websockets opencv-python numpy
+```
+
+(Add torch / ultralytics if using YOLO)
+
+---
+
+## 3️⃣ Run Backend
+
+From inside `UB-1042` root:
+
+```bash
+uvicorn backend.SPY.main:app --reload --port 8000
+```
+
+Backend will run at:
+
+```
+http://localhost:8000
+```
+
+---
+
+# 🌐 Frontend Setup (Vite + React)
+
+## 1️⃣ Install Node Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 2️⃣ Start Frontend Dev Server
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Frontend will run at:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+http://localhost:8080
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# 🔌 WebSocket Configuration
 
-## What technologies are used for this project?
+Make sure:
 
-This project is built with:
+* Backend WebSocket endpoint matches frontend
+* Example:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Backend:
 
-## How can I deploy this project?
+```python
+@app.websocket("/ws")
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Frontend:
 
-## Can I connect a custom domain to my Lovable project?
+```ts
+new WebSocket("ws://localhost:8000/ws")
+```
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# 🛡️ CORS Configuration (Backend)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Ensure CORS allows frontend:
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+---
+
+# 📦 Production Build (Frontend)
+
+```bash
+npm run build
+```
+
+If serving static files from FastAPI, ensure:
+
+```python
+app.mount("/", StaticFiles(directory="dist", html=True), name="static")
+```
+
+---
+
+# 🧪 Debug Checklist
+
+If frontend shows **“Connecting to SPY Network…”**:
+
+* Confirm backend running on 8000
+* Check browser DevTools → Network
+* Check WebSocket connection
+* Check CORS errors
+* Confirm endpoint paths match
+
+---
+
+# 🔐 Environment Variables (Optional)
+
+If using `.env`:
+
+```
+ROBOFLOW_API_KEY=your_key_here
+MODEL_PATH=path/to/model.pt
+```
+
+Load using:
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+---
+
+# 🧠 Tech Stack
+
+* FastAPI
+* Uvicorn
+* React
+* Vite
+* TypeScript
+* OpenCV
+* YOLO (optional)
+* WebSockets
+
+---
+
+# 👤 Author
+
+Kishan K,Bhuvan J P,Ananya,Rortin coelho
+AI/ML Developer
+
